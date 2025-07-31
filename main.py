@@ -1,6 +1,6 @@
 import os
 import asyncio
-from typing import List
+from typing import List, Dict
 from uuid import uuid4
 
 # Load environment variables FIRST
@@ -136,6 +136,24 @@ Answer:"""
 async def root():
     """Basic endpoint to check if the server is running."""
     return {"message": "Hello, HackRx 6.0! Welcome to the Policy RAG System."}
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint to verify system status."""
+    try:
+        # Check if vector store is accessible
+        stats = vector_store.get_index_stats()
+        return {
+            "status": "healthy",
+            "vector_store": "connected" if "error" not in stats else "error",
+            "openai": "configured" if OPENAI_API_KEY else "not_configured",
+            "pinecone": "configured" if PINECONE_API_KEY else "not_configured"
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "error": str(e)
+        }
 
 @app.post("/api/v1/hackrx/run", response_model=HackRxResponse)
 async def run_hackrx_rag(

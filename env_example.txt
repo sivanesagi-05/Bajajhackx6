@@ -1,0 +1,9 @@
+# OpenAI API Configuration
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Pinecone Configuration
+PINECONE_API_KEY=your_pinecone_api_key_here
+PINECONE_ENVIRONMENT=us-west-2
+
+# Authentication Token (for API access)
+AUTH_TOKEN=your_auth_token_here 
